@@ -31,15 +31,18 @@ class Server():
         if result.group(1) == "Get":
             USER = result.group(2)
             SONG = result.group(3)
-            os.system("spotdl " + SONG + " -p '/home/"+USER+"/Music/{title}_{artist}.{ext}'")
+            os.system("spotdl " + SONG + " -p '/home/"+USER+"/Music/{title}-{artist}.{ext}'")
             Songs = os.listdir("/home/"+USER+"/Music/")
             for f in Songs:
-                if SONG in f:
-                    print(f)
-                    Song  = f.split("_")[0]
-                    Artist = f.split("_")[1]
+                f2 = open(f, 'wb')
+                Song_name = str(f2).split("'")[1]
+                if str(Song_name) in f:
+                    Song = Song_name.split("-")[0]
+                    Artist = Song_name.split("-")[1].split(".")[0]
                     print(Song)
                     print(Artist)
+                    
+
             #Mydb.db_insert(self,Artist,Song,User)
         msg=""
         for i in get:
@@ -50,6 +53,6 @@ class Server():
         con.close()
         self.s.close()
         
-serv = Server("127.0.0.1",12010)
+serv = Server("127.0.0.1",12001)
 serv.wait()
 serv.s.close()
