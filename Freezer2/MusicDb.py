@@ -14,16 +14,20 @@ class Music_db():
             )
         except mariadb.Error as e:
             print(f"Error connecting to MariaDB Platform: {e}")
-        self.db_connect()
-        self.cur = self.conn.cursor()
 
     def db_insert(self,Artist,Song,User):
+        self.db_connect()
+        self.cur = self.conn.cursor()
         self.cur.execute("INSERT INTO Music (Artist,Song,User) VALUES (?,?,?)",(Artist,Song,User))
 
     def db_search(self,Artist,Song,User):
+        self.db_connect()
+        self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM Music WHERE Artist LIKE ? HAVING User = ? ",(Artist,Song,User))
 
     def db_GetAll(self,User):
+        self.db_connect()
+        self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM Music WHERE User = ? ",(User))
 
     
