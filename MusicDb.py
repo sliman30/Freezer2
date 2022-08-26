@@ -17,19 +17,23 @@ class Music_db():
 
     def db_insert(self,Artist,Song,User):
         self.db_connect()
-        self.cur = self.conn.cursor()
-        self.cur.execute("INSERT INTO Music (Artist,Song,User) VALUES (?,?,?)",(Artist,Song,User))
-
+        cur = self.conn.cursor()
+        statement = "INSERT INTO Music (Artist,Song,User) VALUES (%s,%s,%s);"
+        data = (str(Artist),str(Song),str(User))
+        cur.execute(statement, data)
+        print('Insertion Complete !')
+    
     def db_search(self,Artist,Song,User):
         self.db_connect()
-        self.cur = self.conn.cursor()
-        self.cur.execute("SELECT * FROM Music WHERE Artist LIKE ? HAVING User = ? ",(Artist,Song,User))
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM Music WHERE Artist LIKE ? HAVING User = ? ",(Artist,Song,User))
 
     def db_GetAll(self,User):
         self.db_connect()
         self.cur = self.conn.cursor()
-        self.cur.execute("SELECT * FROM Music WHERE User = ? ",(User))
+        self.cur.execute("SELECT * FROM Music ",(User))
 
+    
 
     #conn.commit()
     #cur.execute("SELECT * FROM machines;")

@@ -1,12 +1,11 @@
 import maskpass
 import ftplib
 import os
-import shutil
 
 class MyFTP():
     def __init__(self):
         self.flag = 0
-        self.dirFTP = "/home/imane/Musique/"
+        self.dirFTP = "/home/imane/Music/"
         self.Songs = []
         self.Song_name = ""
 
@@ -14,7 +13,7 @@ class MyFTP():
         # Open ftp connection
         self.USER   = 'guest'#input("Enter your username : ")
         PASSWD = 'guest'#maskpass.askpass("Enter your password : ")
-        HOST   = "10.125.24.84"
+        HOST   = "10.125.24.56"
         self.ftps = ftplib.FTP_TLS(HOST,self.USER,PASSWD)
 
     def FTP_UPdatelist(self):
@@ -41,26 +40,16 @@ class MyFTP():
         for f in self.Songs:
             if SONG in f:
                 print('Song exists')
-                localfile = open(f, 'wb')        
+                os.chdir(self.dirFTP)
+                localfile = open(f, 'wb')     
                 self.ftps.retrbinary('RETR ' + f, localfile.write, 1024)
                 self.Song_name = str(localfile).split("'")[1]
-                self.Song_path = os.path.abspath(str(self.Song_name))
-                try:
-                    shutil.move(self.Song_path,self.dirFTP)
-                except:
-                    pass
                 self.flag = 1
     
     def FTP_Get(self):
         self.FTP_conn()
         for f in self.Songs:
+            os.chdir(self.dirFTP)
             localfile = open(f, 'wb')        
             self.ftps.retrbinary('RETR ' + f, localfile.write, 1024)
             self.Song_name = str(localfile).split("'")[1]
-            self.Song_path = os.path.abspath(str(self.Song_name))
-            if self.Song_name in f:
-                try:
-                    shutil.move(self.Song_path,self.dirFTP)
-                except:
-                    pass
-                self.flag = 1
