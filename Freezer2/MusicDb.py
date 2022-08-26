@@ -30,7 +30,6 @@ class Music_db():
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM Music WHERE User = ? ",(User))
 
-    
 
     #conn.commit()
     #cur.execute("SELECT * FROM machines;")
