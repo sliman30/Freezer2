@@ -4,6 +4,7 @@ import sys
 import os
 import MusicDb
 import subprocess
+
 Mydb = MusicDb.Music_db()
 
 
@@ -33,13 +34,10 @@ class Server():
             USER = result.group(2);SONG = result.group(3)
             os.chdir("/home/"+USER+"/Music")
             var=subprocess.check_output("spotdl '" + SONG + "'",shell=True).decode()
-            resulta=re.search('Found YouTube URL for "(.+)"',var)
-
-            Artist = resulta.groups()[0].split("-")[0]
-            Song = resulta.groups()[0].split("-")[1]
-            print(str(Artist));print(str(Song));print(type(USER))
-            Mydb.db_insert(str(Artist),str(Song),str(USER))
-            Mydb.db_GetAll(USER)
+            resultat=re.search('Found YouTube URL for "(.+)"',var)
+            Artist = resultat.groups()[0].split("-")[0]
+            Song = resultat.groups()[0].split("-")[1]
+            Mydb.db_insert(Artist,Song,USER)
 
         msg=""
         for i in get:
@@ -50,6 +48,6 @@ class Server():
         con.close()
         self.s.close()
         
-serv = Server("127.0.0.1",12010)
+serv = Server("127.0.0.1",12000)
 serv.wait()
 serv.s.close()

@@ -5,7 +5,7 @@ import os
 class MyFTP():
     def __init__(self):
         self.flag = 0
-        self.dirFTP = "/home/imane/Music/"
+        self.dirFTP = "~/Music/"
         self.Songs = []
         self.Song_name = ""
 
@@ -13,7 +13,7 @@ class MyFTP():
         # Open ftp connection
         self.USER   = 'guest'#input("Enter your username : ")
         PASSWD = 'guest'#maskpass.askpass("Enter your password : ")
-        HOST   = "10.125.24.56"
+        HOST   = "10.125.24.84"
         self.ftps = ftplib.FTP_TLS(HOST,self.USER,PASSWD)
 
     def FTP_UPdatelist(self):

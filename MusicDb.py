@@ -12,26 +12,26 @@ class Music_db():
                 host="127.0.0.1",
                 database="FreezerDb"
             )
+            self.cur = self.conn.cursor()
+
         except mariadb.Error as e:
             print(f"Error connecting to MariaDB Platform: {e}")
 
     def db_insert(self,Artist,Song,User):
         self.db_connect()
-        cur = self.conn.cursor()
         statement = "INSERT INTO Music (Artist,Song,User) VALUES (%s,%s,%s);"
         data = (str(Artist),str(Song),str(User))
-        cur.execute(statement, data)
+        self.cur.execute(statement, data)
+        self.conn.commit()
         print('Insertion Complete !')
     
     def db_search(self,Artist,Song,User):
         self.db_connect()
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM Music WHERE Artist LIKE ? HAVING User = ? ",(Artist,Song,User))
+        self.cur.execute("SELECT * FROM Music WHERE Artist LIKE ? HAVING User = ? ",(Artist,Song,User))
 
-    def db_GetAll(self,User):
+    def db_GetAll(self):
         self.db_connect()
-        self.cur = self.conn.cursor()
-        self.cur.execute("SELECT * FROM Music ",(User))
+        self.cur.execute("SELECT * FROM Music ")
 
     
 
