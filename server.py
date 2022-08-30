@@ -48,6 +48,6 @@ class Server():
         con.close()
         self.s.close()
         
-serv = Server("127.0.0.1",12000)
+serv = Server("10.125.24.63",12000)
 serv.wait()
 serv.s.close()
